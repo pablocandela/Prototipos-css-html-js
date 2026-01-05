@@ -1,18 +1,20 @@
 import Sprite from "./Sprite.js";
 
 export default class Player {
-    constructor(x, y, image) {
+    constructor(x, y, width, heigth, image, Nframes, speed) {
+        // Posición x, y del personaje.
         this.x = x;
         this.y = y;
-        this.speed = 120;
+        this.speed = speed; // Velocidad de movimiento del personaje.
 
-        this.facing = "right";
+        this.facing = "right"; // Dirección a donde ve el personaje.
 
         this.sprite = new Sprite(
-            image,
-            192,
-            192,
-            [0, 1, 2, 3, 4, 5] // Frames de caminar a la derecha
+            image, // La imagen del frame.
+            width, // Ancho de cada frame.
+            heigth, // Alto de cada frame.
+            Array.from({ length: Nframes }, (_, index) => index),  // Frames de caminar a la derecha [1,2,3,4,5,..,n].
+            0.12
         );
     }
 
@@ -43,7 +45,7 @@ export default class Player {
             this.facing = this.facing == "left" ? "left" : "rigth";
             moving = true;
         }
-       
+
         // Si se detecta un input se actualiza el sprite, en caso contrario se queda estatico (En el frame 0 del sprite).
         if (moving) {
             this.sprite.update(dt);

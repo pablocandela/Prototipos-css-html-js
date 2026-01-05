@@ -1,5 +1,5 @@
 export default class Sprite {
-  constructor(image, frameWidth, frameHeight, frames) {
+  constructor(image, frameWidth, frameHeight, frames, speed) {
     this.image = image;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
@@ -7,7 +7,7 @@ export default class Sprite {
 
     this.frame = 0;
     this.time = 0;
-    this.speed = 0.12; // El número de segundos por frame.
+    this.speed = speed; // El número de segundos por frame.
   }
 
   /*
