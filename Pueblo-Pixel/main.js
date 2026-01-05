@@ -9,6 +9,10 @@ window.onload = async function () {
     // Se inicializa el motor.
     const ctx = GameEngine.init('mainCanvas');
 
+    resizeCanvas();
+
+    window.addEventListener('resize', resizeCanvas);
+
     const treeArray = await initializeTrees();
     const archerArray = await initializeArchers();
     const player = await initializePlayer();
@@ -101,3 +105,15 @@ async function loadImage(path) {
     await img.decode();
     return img;
 }
+
+// Escala el canvas al tamaño de la ventana.
+function resizeCanvas() {
+    const canvas = document.getElementById('mainCanvas');
+    const scaleX = window.innerWidth / canvas.width;
+    const scaleY = window.innerHeight / canvas.height;
+    const scale = Math.min(scaleX, scaleY); // Mantiene proporción.
+
+    canvas.style.width = canvas.width * scale + 'px';
+    canvas.style.height = canvas.height * scale + 'px';
+}
+
