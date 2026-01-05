@@ -11,7 +11,7 @@ export default class Tree {
             width, // Ancho de cada frame.
             heigth, // Alto de cada frame.
             Array.from({ length: Nframes }, (_, index) => index), // Frames de animación del arbol [0,1,2,3,..,n].
-            this.getRandomDecimalInRange(0.18, 0.25)
+           GameEngine.Utils.getRandomDecimalInRange(0.12, 0.25)
         );
     }
 
@@ -22,9 +22,5 @@ export default class Tree {
 
     draw(ctx) {
         this.sprite.draw(ctx, this.x, this.y, false);
-    }
-
-    getRandomDecimalInRange(min, max) {
-        return Math.random() * (max - min) + min;
     }
 }

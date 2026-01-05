@@ -16,7 +16,10 @@ var GameEngine = (function (GameEngine) {
     */
     lerp: function (v0, v1, t) {
       return v0 + (v1 - v0) * t;
-    }
+    },
+    getRandomDecimalInRange: function (min, max) {
+      return Math.random() * (max - min) + min;
+    },
   };
 
   //Se inicializa el motor, el canvas es el "lienzo" sobre el cual se pinta y ctx es el "pincel".

@@ -2,28 +2,31 @@ import Map from "./map.js";
 import { Input } from "./Input.js";
 import Player from "./player.js";
 import Tree from "./tree.js";
+import Archer from "./archer.js";
 
 // Espera a qye todo cargue.
 window.onload = async function () {
     // Se inicializa el motor.
     const ctx = GameEngine.init('mainCanvas');
 
-    const playerImage = new Image();
-    playerImage.src = "assets/Warrior_Run.png";
-    await playerImage.decode();
-    const player = new Player(100, 100, 192, 192, playerImage, 6, 120);
-
     const treeArray = await initializeTrees();
+    const archerArray = await initializeArchers();
+    const player = await initializePlayer();
 
     // Cargamos el mapa (para este casó se exportó de la herramienta Tiled).
     await Map.load('maps/map.json');
 
     // Funcion que indica que se actualiza en cada ciclo.
     function update(dt) {
-        player.update(dt, Input);
         treeArray.forEach(tree => {
             tree.update(dt);
         });
+
+        archerArray.forEach(archer => {
+            archer.update(dt);
+        });
+
+        player.update(dt, Input);
     }
 
     // Funcion que indica que se dibuja en cada ciclo.
@@ -37,13 +40,18 @@ window.onload = async function () {
         // Dibujamos el mapa.
         Map.render(ctx);
 
-        // Dibujamos al personaje del jugador.
-        player.draw(ctx);
-
         //Dibujamos los árboles.
         treeArray.forEach(tree => {
             tree.draw(ctx);
         });
+
+        archerArray.forEach(archer => {
+            archer.draw(ctx);
+        });
+
+        // Dibujamos al personaje del jugador.
+        player.draw(ctx);
+
 
     }
 
@@ -51,21 +59,30 @@ window.onload = async function () {
     GameEngine.start(update, render);
 };
 
+// Se inicializan el personaje principal.
+async function initializePlayer() {
+    const idleImage = await loadImage("assets/Warrior_Idle.png");
+    const runImage = await loadImage("assets/Warrior_Run.png");
+    return new Player(100, 100, 192, 192, idleImage, runImage, 8, 6, 120);
+}
+
+// Se inicializan el personaje principal.
+async function initializeArchers() {
+    const idleImage = await loadImage("assets/Archer_Idle.png");
+
+    var archerArray = [];
+    archerArray.push(new Archer(-30, 300, 192, 192, idleImage, 6));
+
+    return archerArray;
+}
+
 
 // Se inicializan todos los arboles del mapa.
 async function initializeTrees() {
-    const treeImage1 = new Image();
-    treeImage1.src = "assets/Tree1.png";
-    await treeImage1.decode();
-    const treeImage2 = new Image();
-    treeImage2.src = "assets/Tree2.png";
-    await treeImage2.decode();
-    const treeImage3 = new Image();
-    treeImage3.src = "assets/Tree3.png";
-    await treeImage3.decode();
-    const treeImage4 = new Image();
-    treeImage4.src = "assets/Tree4.png";
-    await treeImage4.decode();
+    const treeImage1 = await loadImage("assets/Tree1.png");
+    const treeImage2 = await loadImage("assets/Tree2.png");
+    const treeImage3 = await loadImage("assets/Tree3.png");
+    const treeImage4 = await loadImage("assets/Tree4.png");
 
     var treeArray = [];
     treeArray.push(new Tree(640, 10, 192, 256, treeImage1, 6));
@@ -75,4 +92,12 @@ async function initializeTrees() {
     treeArray.push(new Tree(450, -40, 192, 192, treeImage4, 6));
 
     return treeArray;
-}   
+}
+
+
+async function loadImage(path) {
+    const img = new Image();
+    img.src = path;
+    await img.decode();
+    return img;
+}
