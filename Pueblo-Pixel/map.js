@@ -1,4 +1,4 @@
-import { renderLayer } from "./TileRenderer.js";
+import { renderLayer } from "./tileRenderer.js";
 
 const Map = {
   data: null,
