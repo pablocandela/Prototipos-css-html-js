@@ -10,8 +10,9 @@ window.onload = async function () {
     const ctx = GameEngine.init('mainCanvas');
 
     resizeCanvas();
-
     window.addEventListener('resize', resizeCanvas);
+
+    playMusic();
 
     const treeArray = await initializeTrees();
     const archerArray = await initializeArchers();
@@ -63,6 +64,7 @@ window.onload = async function () {
     GameEngine.start(update, render);
 };
 
+
 // Se inicializan el personaje principal.
 async function initializePlayer() {
     const idleImage = await loadImage("assets/Warrior_Idle.png");
@@ -106,7 +108,7 @@ async function loadImage(path) {
     return img;
 }
 
-// Escala el canvas al tamaño de la ventana.
+// Escala el canvas al tamaño de la ventana (https://stackoverflow.com/questions/33515707/scaling-a-javascript-canvas-game-properly).
 function resizeCanvas() {
     const canvas = document.getElementById('mainCanvas');
     const scaleX = window.innerWidth / canvas.width;
@@ -117,3 +119,19 @@ function resizeCanvas() {
     canvas.style.height = canvas.height * scale + 'px';
 }
 
+function playMusic() {
+    const background_audio = new Audio("assets/music.mp3");
+    background_audio.loop = true;
+    background_audio.volume = 0.5;
+
+    background_audio.addEventListener("canplay", () => {
+        background_audio.play().catch(() => {
+            // Si el navegador bloquea autoplay, esperar interacción del usuario
+            window.addEventListener('click', () => {
+                background_audio.play();
+            }, { once: true });
+        });
+    });
+
+    return background_audio; // opcional si quieres controlar después
+}
