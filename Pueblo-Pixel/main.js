@@ -64,7 +64,6 @@ window.onload = async function () {
     GameEngine.start(update, render);
 };
 
-
 // Se inicializan el personaje principal.
 async function initializePlayer() {
     const idleImage = await loadImage("assets/Warrior_Idle.png");
@@ -81,7 +80,6 @@ async function initializeArchers() {
 
     return archerArray;
 }
-
 
 // Se inicializan todos los arboles del mapa.
 async function initializeTrees() {
@@ -100,7 +98,7 @@ async function initializeTrees() {
     return treeArray;
 }
 
-
+// Funcion que carga una imagen a partir de una ruta.
 async function loadImage(path) {
     const img = new Image();
     img.src = path;
@@ -119,6 +117,7 @@ function resizeCanvas() {
     canvas.style.height = canvas.height * scale + 'px';
 }
 
+// Función que ejecuta la musica del juego.
 function playMusic() {
     const background_audio = new Audio("assets/music.mp3");
     background_audio.loop = true;
